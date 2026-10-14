@@ -72,29 +72,90 @@ setInterval(function() {
     }
 }, 1000);
 
-// 5. FITUR INTERAKTIF BUKU TAMU / RSVP
+// 5. FITUR INTERAKTIF BUKU TAMU / RSVP (TERHUBUNG KE GOOGLE SHEETS)
+const SCRIPT_URL = https://script.google.com/macros/s/AKfycbxy9xGUEA5ueZGZjkFUZMkdwKRLc6F0uOIeFsb8CXv_RY3xGxLWMzd9pBvtxLh0R1FfKA/exec;
+
+// Fungsi untuk mengambil & menampilkan semua ucapan dari Google Sheets
+function muatUcapan() {
+    const commentsList = document.getElementById('comments-list');
+    if (!commentsList) return;
+    
+    fetch(SCRIPT_URL)
+        .then(response => response.json())
+        .then(data => {
+            commentsList.innerHTML = '';
+            
+            if (!data || data.length === 0) {
+                commentsList.innerHTML = '<p style="text-align:center; color:#777; font-size:0.85rem;">Belum ada ucapan. Jadilah yang pertama memberikan doa!</p>';
+                return;
+            }
+
+            // Tampilkan ucapan terbaru di paling atas
+            data.reverse().forEach(item => {
+                const badgeClass = item.status === 'Hadir' ? 'hadir' : 'berhalangan';
+                const card = document.createElement('div');
+                card.className = 'comment-card';
+                card.innerHTML = `
+                    <h4>${item.nama} <span class="badge ${badgeClass}">${item.status}</span></h4>
+                    <p>"${item.ucapan}"</p>
+                `;
+                commentsList.appendChild(card);
+            });
+        })
+        .catch(error => {
+            console.error('Error muat ucapan:', error);
+            commentsList.innerHTML = '<p style="text-align:center; color:#777; font-size:0.85rem;">Belum ada ucapan tersimpan.</p>';
+        });
+}
+
+// Fungsi untuk mengirim ucapan baru ke Google Sheets
 function tambahUcapan(event) {
     event.preventDefault();
 
+    const btnSubmit = document.getElementById('btn-submit');
     const name = document.getElementById('rsvp-name').value;
     const status = document.getElementById('rsvp-status').value;
     const message = document.getElementById('rsvp-message').value;
-    const commentsList = document.getElementById('comments-list');
 
-    const badgeClass = status === 'Hadir' ? 'hadir' : 'berhalangan';
+    if (btnSubmit) {
+        btnSubmit.innerText = "Mengarahkan...";
+        btnSubmit.disabled = true;
+    }
 
-    const newComment = document.createElement('div');
-    newComment.className = 'comment-card';
-    newComment.innerHTML = `
-        <h4>${name} <span class="badge ${badgeClass}">${status}</span></h4>
-        <p>"${message}"</p>
-    `;
+    const payload = {
+        nama: name,
+        status: status,
+        ucapan: message
+    };
 
-    commentsList.prepend(newComment);
-
-    // Reset Form
-    document.getElementById('rsvp-form').reset();
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+    })
+    .then(res => res.json())
+    .then(response => {
+        alert("Terima kasih! Ucapan Anda telah berhasil dikirim.");
+        document.getElementById('rsvp-form').reset();
+        if (btnSubmit) {
+            btnSubmit.innerText = "Kirim Ucapan";
+            btnSubmit.disabled = false;
+        }
+        muatUcapan();
+    })
+    .catch(error => {
+        console.error('Error kirim ucapan:', error);
+        alert("Terjadi kesalahan saat mengirim ucapan. Silakan coba lagi.");
+        if (btnSubmit) {
+            btnSubmit.innerText = "Kirim Ucapan";
+            btnSubmit.disabled = false;
+        }
+    });
 }
+
+// Muat ucapan otomatis saat halaman dibuka
+document.addEventListener("DOMContentLoaded", function() {
+    muatUcapan();
+});
 
 // 6. FITUR SALIN REKENING
 function salinRekening(elementId, buttonElement) {
