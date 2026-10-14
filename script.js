@@ -73,9 +73,8 @@ setInterval(function() {
 }, 1000);
 
 // 5. FITUR INTERAKTIF BUKU TAMU / RSVP (TERHUBUNG KE GOOGLE SHEETS)
-const SCRIPT_URL = https://script.google.com/macros/s/AKfycbxy9xGUEA5ueZGZjkFUZMkdwKRLc6F0uOIeFsb8CXv_RY3xGxLWMzd9pBvtxLh0R1FfKA/exec;
+const SCRIPT_URL = "URL_WEB_APP_BARU_ANDA"; // Tempel URL baru di sini
 
-// Fungsi untuk mengambil & menampilkan semua ucapan dari Google Sheets
 function muatUcapan() {
     const commentsList = document.getElementById('comments-list');
     if (!commentsList) return;
@@ -86,11 +85,11 @@ function muatUcapan() {
             commentsList.innerHTML = '';
             
             if (!data || data.length === 0) {
-                commentsList.innerHTML = '<p style="text-align:center; color:#777; font-size:0.85rem;">Belum ada ucapan. Jadilah yang pertama memberikan doa!</p>';
+                commentsList.innerHTML = '<p style="text-align:center; color:#777; font-size:0.85rem;">Belum ada ucapan tersimpan.</p>';
                 return;
             }
 
-            // Tampilkan ucapan terbaru di paling atas
+            // Tampilkan dari ucapan terbaru di paling atas
             data.reverse().forEach(item => {
                 const badgeClass = item.status === 'Hadir' ? 'hadir' : 'berhalangan';
                 const card = document.createElement('div');
@@ -104,11 +103,9 @@ function muatUcapan() {
         })
         .catch(error => {
             console.error('Error muat ucapan:', error);
-            commentsList.innerHTML = '<p style="text-align:center; color:#777; font-size:0.85rem;">Belum ada ucapan tersimpan.</p>';
         });
 }
 
-// Fungsi untuk mengirim ucapan baru ke Google Sheets
 function tambahUcapan(event) {
     event.preventDefault();
 
@@ -118,7 +115,7 @@ function tambahUcapan(event) {
     const message = document.getElementById('rsvp-message').value;
 
     if (btnSubmit) {
-        btnSubmit.innerText = "Mengarahkan...";
+        btnSubmit.innerText = "Mengirim...";
         btnSubmit.disabled = true;
     }
 
@@ -128,23 +125,28 @@ function tambahUcapan(event) {
         ucapan: message
     };
 
+    // Kirim menggunakan POST mode no-cors agar lolos dari batasan CORS browser
     fetch(SCRIPT_URL, {
         method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'text/plain',
+        },
         body: JSON.stringify(payload)
     })
-    .then(res => res.json())
-    .then(response => {
+    .then(() => {
         alert("Terima kasih! Ucapan Anda telah berhasil dikirim.");
         document.getElementById('rsvp-form').reset();
         if (btnSubmit) {
             btnSubmit.innerText = "Kirim Ucapan";
             btnSubmit.disabled = false;
         }
-        muatUcapan();
+        // Tunggu 1,5 detik agar Google Sheets selesai menulis baris baru, lalu muat ulang ucapan
+        setTimeout(muatUcapan, 1500);
     })
     .catch(error => {
         console.error('Error kirim ucapan:', error);
-        alert("Terjadi kesalahan saat mengirim ucapan. Silakan coba lagi.");
+        alert("Terjadi kesalahan saat mengirim ucapan.");
         if (btnSubmit) {
             btnSubmit.innerText = "Kirim Ucapan";
             btnSubmit.disabled = false;
@@ -152,7 +154,6 @@ function tambahUcapan(event) {
     });
 }
 
-// Muat ucapan otomatis saat halaman dibuka
 document.addEventListener("DOMContentLoaded", function() {
     muatUcapan();
 });
