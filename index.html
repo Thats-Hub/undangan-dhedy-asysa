@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - Dhedy & Asysa</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- WAPPER UTAMA SPLIT-SCREEN LAYOUT -->
+    <div class="wrapper">
+        
+        <!-- PANEL KIRI (TAMPIL KHUSUS LAYAR DESKTOP/LAPTOP) -->
+        <aside class="desktop-panel">
+            <div class="desktop-content">
+                <p class="sub-title">THE WEDDING OF</p>
+                <h1>Dhedy &amp; Asysa</h1>
+                <p class="date-text">Minggu, 12 Desember 2026</p>
+            </div>
+        </aside>
+
+        <!-- PANEL KANAN (FRAME UNDANGAN MOBILE UNTUK SEMUA DEVICE) -->
+        <div class="mobile-container">
+            
+            <!-- BINGKAI DEKORATIF SISI -->
+            <div class="frame-border top-left"></div>
+            <div class="frame-border top-right"></div>
+            <div class="frame-border bottom-left"></div>
+            <div class="frame-border bottom-right"></div>
+
+            <!-- 1. HALAMAN SAMPUL (COVER DENGAN VIDEO) -->
+            <section id="cover" class="cover-screen">
+                <video autoplay loop muted playsinline class="bg-video">
+                    <source src="assets/PreWedding.mp4" type="video/mp4">
+                    Browsermu tidak mendukung video background.
+                </video>
+
+                <div class="cover-content">
+                    <p class="sub-title">THE WEDDING OF</p>
+                    <h1>Dhedy &amp; Asysa</h1>
+                    <p class="date-text">12 . 12 . 2026</p>
+                    
+                    <div class="invitation-to">
+                        <p>Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+                        <h2 id="guest-name">Tamu Undangan</h2>
+                    </div>
+                    
+                    <button onclick="bukaUndangan()" class="btn-open">
+                        ✉️ BUKA UNDANGAN
+                    </button>
+                </div>
+            </section>
+
+            <!-- AUDIO LATAR BELAKANG -->
+            <audio id="bg-music" loop>
+                <source src="assets/song.mp3" type="audio/mp3">
+            </audio>
+
+            <!-- 2. KONTEN UTAMA UNDANGAN -->
+            <main id="main-content" class="hidden">
+                
+                <!-- Pembuka & Quote -->
+                <section class="hero">
+                    <p class="quote-title">KUTIPAN</p>
+                    <blockquote class="quote-text">
+                        "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang."
+                    </blockquote>
+                    <p class="quote-source">Ar-Rum: 21</p>
+                </section>
+
+                <!-- Bagian Mempelai -->
+                <section class="couples">
+                    <h2 class="section-title">Pasangan Mempelai</h2>
+                    
+                    <div class="couple-card">
+                        <div class="avatar" style="background-image: url('assets/Pria.png');"></div>
+                        <h3>Dhedy Ardianto, S.TP., M.TP</h3>
+                        <p>Putra dari Bpk. Syamsualam &amp; Ibu Mindawati</p>
+                    </div>
+
+                    <div class="separator">&amp;</div>
+
+                    <div class="couple-card">
+                        <div class="avatar" style="background-image: url('assets/Wanita.jpeg');"></div>
+                        <h3>Nur Asysa, S.TP</h3>
+                        <p>Putri dari Bpk. H. Asis &amp; Ibu Hj. Rahmatang</p>
+                    </div>
+                </section>
+
+                <!-- Bagian Acara & Countdown -->
+                <section class="event">
+                    <h2 class="section-title">Rangkaian Acara</h2>
+
+                    <div class="countdown-container">
+                        <div class="countdown-box">
+                            <span id="days">00</span>
+                            <p>Hari</p>
+                        </div>
+                        <div class="countdown-box">
+                            <span id="hours">00</span>
+                            <p>Jam</p>
+                        </div>
+                        <div class="countdown-box">
+                            <span id="minutes">00</span>
+                            <p>Menit</p>
+                        </div>
+                        <div class="countdown-box">
+                            <span id="seconds">00</span>
+                            <p>Detik</p>
+                        </div>
+                    </div>
+
+                    <div class="event-card">
+                        <h3>Akad Nikah &amp; Resepsi</h3>
+                        <p class="event-date">Minggu, 12 Desember 2026</p>
+                        <p>Pukul 08.00 WIB - Selesai</p>
+                        <p class="event-location">Gedung Serbaguna Mawar, Jakarta</p>
+                        <a href="https://maps.google.com" target="_blank" class="btn-location">📍 Petunjuk Lokasi (Google Maps)</a>
+                    </div>
+                </section>
+
+                <!-- GALERI FOTO PREWEDDING -->
+                <section class="gallery">
+                    <h2 class="section-title">Galeri Bahagia</h2>
+                    <div class="gallery-grid">
+                        <div class="gallery-item" style="background-image: url('assets/Galeri1.jpeg');"></div>
+                        <div class="gallery-item" style="background-image: url('assets/Galeri2.jpeg');"></div>
+                        <div class="gallery-item" style="background-image: url('assets/Galeri3.jpeg');"></div>
+                        <div class="gallery-item" style="background-image: url('assets/Galeri4.jpeg');"></div>
+                        <div class="gallery-item" style="background-image: url('assets/Galeri5.jpeg');"></div>
+                        <div class="gallery-item" style="background-image: url('assets/Galeri6.jpeg');"></div>
+                    </div>
+                </section>
+
+                <!-- FORMULIR RSVP & BUKU TAMU -->
+                <section class="guestbook">
+                    <h2 class="section-title">Konfirmasi &amp; Ucapan Doa</h2>
+                    <p class="guestbook-sub">Berikan ucapan serta doa restu untuk kedua mempelai</p>
+
+                    <form id="rsvp-form" onsubmit="tambahUcapan(event)">
+                        <input type="text" id="rsvp-name" placeholder="Nama Anda" required>
+                        <select id="rsvp-status" required>
+                            <option value="" disabled selected>Konfirmasi Kehadiran</option>
+                            <option value="Hadir">Hadir</option>
+                            <option value="Berhalangan">Berhalangan Hadir</option>
+                        </select>
+                        <textarea id="rsvp-message" rows="4" placeholder="Tuliskan ucapan &amp; doa Anda..." required></textarea>
+                        <button type="submit" class="btn-submit">Kirim Ucapan</button>
+                    </form>
+
+                    <div class="comments-list" id="comments-list">
+                        <div class="comment-card">
+                            <h4>Andi Pratama <span class="badge hadir">Hadir</span></h4>
+                            <p>"Selamat atas pernikahannya! Semoga menjadi keluarga yang sakinah, mawaddah, warahmah."</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AMPLOP DIGITAL -->
+                <section class="gift">
+                    <h2 class="section-title">Amplop Digital</h2>
+                    <p>Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Jika Anda ingin memberikan tanda kasih, dapat melalui:</p>
+
+                    <div class="bank-card">
+                        <h3>BCA</h3>
+                        <p id="rek-1">1234567890</p>
+                        <p class="owner">a.n. Dhedy Ardianto</p>
+                        <button onclick="salinRekening('rek-1', this)" class="btn-copy">📋 Salin Nomor Rekening</button>
+                    </div>
+
+                    <div class="bank-card">
+                        <h3>Mandiri</h3>
+                        <p id="rek-2">0987654321</p>
+                        <p class="owner">a.n. Nur Asysa</p>
+                        <button onclick="salinRekening('rek-2', this)" class="btn-copy">📋 Salin Nomor Rekening</button>
+                    </div>
+                </section>
+
+                <!-- Tombol Audio Melayang -->
+                <button id="music-control" class="music-btn" onclick="toggleMusic()">
+                    <span id="music-icon">🎵</span>
+                </button>
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
