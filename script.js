@@ -1,5 +1,5 @@
-// 1. MENGAMBIL PARAMETER NAMA DARI URL (?to=Nama)
 document.addEventListener("DOMContentLoaded", function() {
+    // 1. Ambil nama tamu dari URL (?to=Nama)
     const urlParams = new URLSearchParams(window.location.search);
     const guestName = urlParams.get('to');
     const guestContainer = document.getElementById('guest-name');
@@ -8,11 +8,11 @@ document.addEventListener("DOMContentLoaded", function() {
         guestContainer.innerText = guestName;
     }
 
-    // Jalankan muat ucapan saat halaman siap
+    // 2. Muat ucapan dari Google Sheets saat halaman siap
     muatUcapan();
 });
 
-// 2. FUNGSI BUKA UNDANGAN (SAMPUL COVER)
+// 3. Fungsi Buka Undangan (Sampul Cover)
 function bukaUndangan() {
     const cover = document.getElementById('cover');
     if (cover) {
@@ -24,9 +24,10 @@ function bukaUndangan() {
     }
 }
 
-// 3. FITUR INTERAKTIF BUKU TAMU / RSVP (TERHUBUNG KE GOOGLE SHEETS)
+// 4. Konfigurasi Google Sheets URL
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxDNxlTlMOmJ3KY0EEaP89595FnHxw2fMrSAlImkWp5nH9hpPvXtujd9Zt1XRJNk1R9MA/exec";
 
+// 5. Fungsi Ambil & Tampilkan Ucapan
 function muatUcapan() {
     const commentsList = document.getElementById('comments-list');
     if (!commentsList) return;
@@ -41,7 +42,6 @@ function muatUcapan() {
                 return;
             }
 
-            // Tampilkan dari ucapan terbaru di paling atas
             data.reverse().forEach(item => {
                 const badgeClass = item.status === 'Hadir' ? 'hadir' : 'berhalangan';
                 const card = document.createElement('div');
@@ -58,6 +58,7 @@ function muatUcapan() {
         });
 }
 
+// 6. Fungsi Kirim Ucapan ke Google Sheets
 function tambahUcapan(event) {
     event.preventDefault();
 
@@ -104,7 +105,7 @@ function tambahUcapan(event) {
     });
 }
 
-// 4. FITUR SALIN REKENING
+// 7. Fungsi Salin Nomor Rekening
 function salinRekening(elementId, buttonElement) {
     const nomorRekening = document.getElementById(elementId).innerText;
 
